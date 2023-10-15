@@ -57,10 +57,9 @@ def get_conversation_chain(vectordb):
     )
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
-        # retriever=vectordb.as_retriever(search_kwargs={'k': 6}),
-        retriever=vectordb.as_retriever(),
+        retriever=vectordb.as_retriever(search_kwargs={'k': 6}),
+        # retriever=vectordb.as_retriever(),
         verbose=False,
-        # return_source_documents=True,
         memory=memory
     )
     return conversation_chain
@@ -72,7 +71,7 @@ def handle_userinput(prompt):
 
     for i, message in enumerate(st.session_state.chat_history):
         if i % 2 == 0:
-            with st.chat_message('user', avatar=Image.open('./data/user_logo.png')):
+            with st.chat_message('user', avatar=Image.open('./data/user_logo_2.png')):
                 st.write(message.content, unsafe_allow_html=True)
 
         else:
@@ -95,7 +94,6 @@ def main():
     load_dotenv()
 
     st.set_page_config(page_title="Chat with PDFs", page_icon=":books:")
-    st.write(css, unsafe_allow_html=True)
     st.header("Chat with multiple PDFs :books:")
 
     if "conversation" not in st.session_state:
@@ -109,7 +107,7 @@ def main():
         handle_userinput(prompt)
 
     with st.sidebar:
-        st.subheader("Your documents")
+        st.header("Your documents")
         pdf_docs = st.file_uploader(
             "Upload your PDFs here and click on 'Process'", accept_multiple_files=True)
         if st.button("Process"):
@@ -131,6 +129,16 @@ def main():
                 st.session_state.conversation = get_conversation_chain(
                     vectorstore)
 
+        st.header("Follow me on")      
+        htm_code = """<div align="left">
+                    <a href="https://www.linkedin.com/in/hamza-kacem/" target="_blank">
+                        <img src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/linkedin/default.svg" width="95" height="45" alt="linkedin logo"  />
+                    </a>
+                    <a href="https://www.youtube.com/@hamza-kacem" target="_blank">
+                        <img src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/youtube/default.svg" width="95" height="45" alt="youtube logo"  />
+                    </a>
+                </div>"""
+        st.markdown(htm_code, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
