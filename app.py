@@ -11,7 +11,6 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.memory import ConversationBufferMemory
-from html_template import css, bot_template, user_template
 
 load_dotenv('.env')
 
